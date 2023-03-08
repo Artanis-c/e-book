@@ -5,13 +5,11 @@ Component({
     selectedColor: "#3cc51f",
     list: [{
       pagePath: "/pages/index/index",
-      iconPath: "/image/icon_component.png",
-      selectedIconPath: "/image/icon_component_HL.png",
+      iconName: "orders-o",
       text: "菜单"
     }, {
       pagePath: "/pages/my/my",
-      iconPath: "/image/icon_API.png",
-      selectedIconPath: "/image/icon_API_HL.png",
+      iconName: "user-o",
       text: "我的"
     }]
   },
