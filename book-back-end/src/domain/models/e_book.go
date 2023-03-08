@@ -66,11 +66,37 @@ var CategoryColumns = struct {
 	CreateTime:   "create_time",
 }
 
+// Temp [...]
+type Temp struct {
+	IrtNo       string     `gorm:"primaryKey;column:irt_no;type:varchar(100);not null" json:"irtNo"`
+	VisitRecord string     `gorm:"column:visit_record;type:varchar(1000);not null" json:"visitRecord"`
+	FromKey     string     `gorm:"column:fromKey;type:varchar(50);not null" json:"fromKey"`
+	CreateTime  *time.Time `gorm:"column:create_time;type:datetime" json:"createTime"`
+}
+
+// TableName get sql table name.获取数据库表名
+func (m *Temp) TableName() string {
+	return "temp"
+}
+
+// TempColumns get sql column name.获取数据库列名
+var TempColumns = struct {
+	IrtNo       string
+	VisitRecord string
+	FromKey     string
+	CreateTime  string
+}{
+	IrtNo:       "irt_no",
+	VisitRecord: "visit_record",
+	FromKey:     "fromKey",
+	CreateTime:  "create_time",
+}
+
 // UserInfo 用户信息表
 type UserInfo struct {
 	UserNo     string     `gorm:"primaryKey;column:user_no;type:char(16);not null" json:"userNo"`
 	UserName   string     `gorm:"column:user_name;type:varchar(20)" json:"userName"`
-	OpendID    string     `gorm:"column:opend_id;type:varchar(100);not null" json:"opendId"` // 微信openid
+	OpenID     string     `gorm:"column:open_id;type:varchar(100);not null" json:"openId"` // 微信openid
 	CreateTime *time.Time `gorm:"column:create_time;type:datetime;default:CURRENT_TIMESTAMP" json:"createTime"`
 }
 
@@ -83,12 +109,12 @@ func (m *UserInfo) TableName() string {
 var UserInfoColumns = struct {
 	UserNo     string
 	UserName   string
-	OpendID    string
+	OpenID     string
 	CreateTime string
 }{
 	UserNo:     "user_no",
 	UserName:   "user_name",
-	OpendID:    "opend_id",
+	OpenID:     "open_id",
 	CreateTime: "create_time",
 }
 

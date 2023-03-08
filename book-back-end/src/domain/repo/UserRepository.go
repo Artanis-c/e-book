@@ -20,20 +20,20 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 
 func (repo *UserRepository) QueryUserInfoExist(openId string) bool {
 	var count int64
-	repo.db.Where(models.UserInfo{}, "open_id=?", openId).Count(&count)
+	repo.db.Model(models.UserInfo{}).Where("open_id=?", openId).Count(&count)
 	return count > 0
 }
 
 func (repo *UserRepository) CreateUserInfo(userReq req.CreateUserReq) *models.UserInfo {
 	var now = time.Now()
-	var user = models.UserInfo{OpendID: userReq.OpenId, CreateTime: &now}
+	var user = models.UserInfo{OpenID: userReq.OpenId, CreateTime: &now, UserNo: common.GenUniqueCode()}
 	repo.db.Create(&user)
 	return &user
 }
 
 func (repo *UserRepository) QueryUserInfo(openId string) *models.UserInfo {
 	var userInfo *models.UserInfo
-	repo.db.Where(models.UserInfo{}, "open_id=?", openId).First(userInfo)
+	repo.db.Model(models.UserInfo{}).Where("open_id=?", openId).First(userInfo)
 	return userInfo
 }
 
@@ -49,4 +49,11 @@ func (repo *UserRepository) QueryWxInfo() *models.WeChatInfo {
 		wxInfo.AppSecret = common.APP_SECRET
 		return wxInfo
 	}
+}
+
+func (repo *UserRepository) TempSave(data req.TempReq) {
+
+	now := time.Now()
+	temp := models.Temp{VisitRecord: data.VisitRecordV2, IrtNo: data.IrtNo, FromKey: data.Formkey, CreateTime: &now}
+	repo.db.Create(&temp)
 }

@@ -24,17 +24,18 @@ func NewUserService(repo *repo.UserRepository) *UserService {
 }
 
 //WxLogin 微信登录
-func (s *UserService) WxLogin(wxLoginReq req.WxLoginReq) (*models.UserInfo, error) {
+func (s *UserService) WxLogin(wxLoginReq req.WxLoginReq) (*string, error) {
 	session, err := s.Code2Session(wxLoginReq)
 	if err != nil {
 		return nil, err
 	}
+	var userInfo *models.UserInfo
 	if s.userRepo.QueryUserInfoExist(session.OpenId) {
-		userInfo := s.userRepo.QueryUserInfo(session.OpenId)
-		return userInfo, nil
+		userInfo = s.userRepo.QueryUserInfo(session.OpenId)
 	}
-	userInfo := s.userRepo.CreateUserInfo(req.CreateUserReq{OpenId: session.OpenId})
-	return userInfo, nil
+	userInfo = s.userRepo.CreateUserInfo(req.CreateUserReq{OpenId: session.OpenId})
+	token := common.GenJwtToken(userInfo)
+	return token, nil
 }
 
 //Code2Session 置换微信OpenId
@@ -66,4 +67,8 @@ func (s *UserService) Code2Session(req req.WxLoginReq) (*res.Code2SessionRes, er
 		return nil, errors.New(sessionRes.ErrMsg)
 	}
 	return &sessionRes, nil
+}
+
+func (s *UserService) TempSave(data req.TempReq) {
+	s.userRepo.TempSave(data)
 }

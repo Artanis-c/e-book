@@ -7,6 +7,8 @@ import (
 
 const CREATE_USER_ROUTE string = "/api/user/create"
 const WX_LOGIN string = "/api/user/login"
+const GET_CURRENT_USER string = "/api/user/current"
+const TEMP string = "/temp/save"
 
 func AuthMiddleWare() gin.HandlerFunc {
 	return func(context *gin.Context) {

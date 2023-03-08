@@ -1,6 +1,7 @@
 package action
 
 import (
+	"book-back-end/src/common"
 	"book-back-end/src/common/logutils"
 	result "book-back-end/src/domain/models/dto"
 	"book-back-end/src/domain/models/req"
@@ -26,4 +27,10 @@ func (ac *UserAction) WxLogin(req req.WxLoginReq) result.Result {
 		return result.Fail(err.Error())
 	}
 	return result.Success(loginRes)
+}
+
+// GetLoginUser 获取当前登录用户
+func (ac *UserAction) GetLoginUser(token string) result.Result {
+	jwtToken, _ := common.PassJwtToken(token)
+	return result.Success(jwtToken)
 }

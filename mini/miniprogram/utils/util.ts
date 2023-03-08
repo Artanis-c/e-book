@@ -1,4 +1,4 @@
-import { HOST_NAME } from "../mdoel/model"
+import { CallApiReq, HOST_NAME } from "../mdoel/model"
 import { hideLoading, showLoading } from "./ui"
 
 export const formatTime = (date: Date) => {
@@ -21,8 +21,29 @@ const formatNumber = (n: number) => {
   return s[1] ? s : '0' + s
 }
 
-export function SendPost(obj:any) {
-  return new Promise(function(resolve, reject) {
+
+
+export function SendGet(url:string){
+  let req:CallApiReq={
+    url:url,
+    method:"GET",
+    message:"处理中"
+  }
+  return CallApi(req)
+}
+
+export function SendPost<T>(url:string,data:any){
+  let req:CallApiReq={
+    url:url,
+    method:"POST",
+    data:data,
+    message:"处理中"
+  }
+  return CallApi<T>(req)
+}
+
+export function CallApi<T>(obj:CallApiReq) {
+  return new Promise<T>(function(resolve, reject) {
     if(obj.showLoading){
       showLoading(obj.message? obj.message : '加载中...');
     }
@@ -59,7 +80,8 @@ export function SendPost(obj:any) {
         console.log("==    接口数据：" + JSON.stringify(res.data));
         console.log('===============================================================================================')
         if (res.statusCode == 200) {
-          resolve(res);
+          let resData= res.data as T
+          resolve(resData);
         } else if (res.statusCode == 401) {//授权失效
           reject("登录已过期");
         } else {

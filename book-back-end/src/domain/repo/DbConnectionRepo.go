@@ -3,14 +3,29 @@ package repo
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"log"
+	"os"
+	"time"
 )
 
 var DB_CONN *gorm.DB
 
 func NewDbConnection() *gorm.DB {
 	if DB_CONN == nil {
+		newLogger := logger.New(
+			log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer（日志输出的目标，前缀和日志包含的内容——译者注）
+			logger.Config{
+				SlowThreshold:             time.Second, // 慢 SQL 阈值
+				LogLevel:                  logger.Info, // 日志级别
+				IgnoreRecordNotFoundError: true,        // 忽略ErrRecordNotFound（记录未找到）错误
+				Colorful:                  true,        // 禁用彩色打印
+			},
+		)
 		dsn := "root:Admin123*@tcp(127.0.0.1:3306)/e_book?charset=utf8mb4&parseTime=True&loc=Local"
-		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+			Logger: newLogger,
+		})
 		if err != nil {
 			panic(err)
 		}

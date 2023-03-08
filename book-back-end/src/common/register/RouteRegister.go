@@ -15,4 +15,9 @@ func UserRoute(webServer *gin.Engine) {
 		context.BindJSON(&req)
 		context.JSON(http.StatusOK, action.WxLogin(req))
 	})
+	webServer.GET(router.GET_CURRENT_USER, func(context *gin.Context) {
+		action, _ := ioc.BuildUserAction()
+		header := context.GetHeader("token")
+		context.JSON(http.StatusOK, action.GetLoginUser(header))
+	})
 }

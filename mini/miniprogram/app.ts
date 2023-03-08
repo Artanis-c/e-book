@@ -1,4 +1,5 @@
-import { HOST_NAME } from "./mdoel/model"
+import { ApiResponse, CallApiReq, HOST_NAME } from "./mdoel/model"
+import { CallApi, SendGet, SendPost } from "./utils/util"
 
 // app.ts
 App<IAppOption>({
@@ -12,13 +13,9 @@ App<IAppOption>({
     // 登录
     wx.login({
       success: data => {
-        wx.request({
-          url: `${HOST_NAME}/api/user/login`,
-          data: data,
-          method:'POST',
-          success:res=>{
-            console.log(res)
-          }
+        let res = SendPost<ApiResponse<string>>("/api/user/login", data)
+        res.then(res => {
+          wx.setStorageSync('token', res.data)
         })
       },
     })
