@@ -6,7 +6,7 @@ Component({
     list: [{
       pagePath: "/pages/index/index",
       iconName: "orders-o",
-      text: "菜单"
+      text: "书架"
     }, {
       pagePath: "/pages/my/my",
       iconName: "user-o",

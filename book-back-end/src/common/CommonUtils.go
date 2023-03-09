@@ -61,7 +61,7 @@ func PassJwtToken(tokenStr string) (*result.JwtClaims, error) {
 		return JwtSignKey, nil
 	})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	if claims, ok := token.Claims.(*result.JwtClaims); ok && token.Valid {
 		return claims, nil

@@ -1,11 +1,23 @@
 // pages/my/my.ts
+
+import { GridItemModel } from "miniprogram/mdoel/model"
+
+var gridItem:Array<GridItemModel> =[
+  {
+    name:'图书分类',
+    icon:'apps-o',
+    page:'/pages/category/category'
+  }
+]
+
 Page({
+
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    gridItem:gridItem
   },
 
   /**
@@ -26,7 +38,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let tab= this.getTabBar()
+    tab.setData({ selected: 1})
   },
 
   /**

@@ -32,7 +32,7 @@ func (repo *UserRepository) CreateUserInfo(userReq req.CreateUserReq) *models.Us
 }
 
 func (repo *UserRepository) QueryUserInfo(openId string) *models.UserInfo {
-	var userInfo *models.UserInfo
+	var userInfo = &models.UserInfo{}
 	repo.db.Model(models.UserInfo{}).Where("open_id=?", openId).First(userInfo)
 	return userInfo
 }

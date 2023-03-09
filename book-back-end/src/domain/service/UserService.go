@@ -32,8 +32,9 @@ func (s *UserService) WxLogin(wxLoginReq req.WxLoginReq) (*string, error) {
 	var userInfo *models.UserInfo
 	if s.userRepo.QueryUserInfoExist(session.OpenId) {
 		userInfo = s.userRepo.QueryUserInfo(session.OpenId)
+	} else {
+		userInfo = s.userRepo.CreateUserInfo(req.CreateUserReq{OpenId: session.OpenId})
 	}
-	userInfo = s.userRepo.CreateUserInfo(req.CreateUserReq{OpenId: session.OpenId})
 	token := common.GenJwtToken(userInfo)
 	return token, nil
 }
