@@ -1,2 +1,4 @@
 <!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<van-grid column-num="3">
+  <van-grid-item icon="{{item.icon}}" text="{{item.name}}" url="{{item.page}}" link-type="navigateTo" wx:for="{{ gridItem }}" wx:key="index"/>
+</van-grid>

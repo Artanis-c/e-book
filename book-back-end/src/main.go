@@ -11,6 +11,7 @@ func main() {
 	webServer.Use(gin.Recovery())
 	webServer.Use(router.AuthMiddleWare())
 	register.UserRoute(webServer)
+	register.CategoryRoute(webServer)
 	err := webServer.Run(":9001")
 	if err != nil {
 		panic(err)

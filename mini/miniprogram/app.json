@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/my/my",
-    "pages/category/category"
+    "pages/type/type",
+    "pages/type-edit/type-edit",
+    "pages/book/book"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -6,7 +6,12 @@ var gridItem:Array<GridItemModel> =[
   {
     name:'图书分类',
     icon:'apps-o',
-    page:'/pages/category/category'
+    page:'/pages/type/type'
+  },
+  {
+    name:'图书管理',
+    icon:'newspaper-o',
+    page:'/pages/book/book'
   }
 ]
 

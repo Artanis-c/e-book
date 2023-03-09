@@ -11,6 +11,11 @@ const (
 	WX_LOGIN         string = "/api/user/login"
 	GET_CURRENT_USER string = "/api/user/current"
 )
+const (
+	CREATE_CATEGORY     = "/api/category/create"
+	DEL_CATEGORY        = "/api/category/del"
+	QUERY_CATEGORY_LIST = "/api/category/list"
+)
 
 const (
 	AUTH_HEADER  string = "token"

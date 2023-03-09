@@ -14,6 +14,21 @@ import (
 
 // Injectors from wire.go:
 
+func BuildCategoryAction() (*action.CategoryAction, error) {
+	db := repo.NewDbConnection()
+	categoryRepository := repo.NewCategoryRepository(db)
+	categoryService := service.NewCategoryService(categoryRepository)
+	categoryAction := action.NewCategoryAction(categoryService)
+	return categoryAction, nil
+}
+
+func BuildCategoryService() (*service.CategoryService, error) {
+	db := repo.NewDbConnection()
+	categoryRepository := repo.NewCategoryRepository(db)
+	categoryService := service.NewCategoryService(categoryRepository)
+	return categoryService, nil
+}
+
 func BuildUserAction() (*action.UserAction, error) {
 	db := repo.NewDbConnection()
 	userRepository := repo.NewUserRepository(db)
