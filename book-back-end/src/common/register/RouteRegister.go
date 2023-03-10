@@ -1,10 +1,12 @@
 package register
 
 import (
+	"book-back-end/src/action"
 	"book-back-end/src/common/router"
 	"book-back-end/src/domain/ioc"
 	result "book-back-end/src/domain/models/dto"
 	"book-back-end/src/domain/models/req"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -45,5 +47,20 @@ func CategoryRoute(webServer *gin.Engine) {
 		userInfo, _ := context.Get(router.CONTEXT_USER)
 		userNo := userInfo.(*result.JwtClaims).UserNo
 		context.JSON(http.StatusOK, categoryAction.QueryCategoryList(userNo))
+	})
+}
+
+func FileRouter(webServer *gin.Engine) {
+	webServer.POST(router.UPLOAD, func(context *gin.Context) {
+		fileAction := action.NewFileAction()
+		file := fileAction.UploadFile(context)
+		context.JSON(http.StatusOK, file)
+	})
+
+	webServer.GET(router.GET_FILE, func(context *gin.Context) {
+		value := context.Query("fileNo")
+		fileName := action.FILE_BASE_PATH + value
+		context.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment;filename=%s", fileName))
+		context.File(fileName)
 	})
 }

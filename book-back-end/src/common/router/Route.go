@@ -18,6 +18,11 @@ const (
 )
 
 const (
+	UPLOAD   string = "/api/file/upload"
+	GET_FILE string = "/api/file/read"
+)
+
+const (
 	AUTH_HEADER  string = "token"
 	CONTEXT_USER string = "CONTEXT_USER"
 )
@@ -27,6 +32,8 @@ var WHITE_URL []string
 func init() {
 	WHITE_URL = make([]string, 1)
 	WHITE_URL = append(WHITE_URL, WX_LOGIN)
+	WHITE_URL = append(WHITE_URL, UPLOAD)
+	WHITE_URL = append(WHITE_URL, GET_FILE)
 }
 
 func AuthMiddleWare() gin.HandlerFunc {

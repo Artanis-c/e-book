@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-sticky": "@vant/weapp/sticky/index",
+    "van-button": "@vant/weapp/button/index"
+  }
 }

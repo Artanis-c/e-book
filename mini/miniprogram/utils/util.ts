@@ -37,7 +37,8 @@ export function SendPost<T>(url:string,data:any){
     url:url,
     method:"POST",
     data:data,
-    message:"处理中"
+    message:"处理中",
+    showLoading:true
   }
   return CallApi<T>(req)
 }

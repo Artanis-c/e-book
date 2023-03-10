@@ -12,6 +12,7 @@ func main() {
 	webServer.Use(router.AuthMiddleWare())
 	register.UserRoute(webServer)
 	register.CategoryRoute(webServer)
+	register.FileRouter(webServer)
 	err := webServer.Run(":9001")
 	if err != nil {
 		panic(err)
