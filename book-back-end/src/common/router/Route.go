@@ -5,47 +5,55 @@ import (
 	result "book-back-end/src/domain/models/dto"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 const (
-	WX_LOGIN         string = "/api/user/login"
-	GET_CURRENT_USER string = "/api/user/current"
+	WxLogin        string = "/api/user/login"
+	GetCurrentUser string = "/api/user/current"
 )
 const (
-	CREATE_CATEGORY     = "/api/category/create"
-	DEL_CATEGORY        = "/api/category/del"
-	QUERY_CATEGORY_LIST = "/api/category/list"
-)
-
-const (
-	UPLOAD   string = "/api/file/upload"
-	GET_FILE string = "/api/file/read"
+	CreateCategory    = "/api/category/create"
+	DelCategory       = "/api/category/del"
+	QueryCategoryList = "/api/category/list"
 )
 
 const (
-	AUTH_HEADER  string = "token"
-	CONTEXT_USER string = "CONTEXT_USER"
+	UPLOAD  string = "/api/file/upload"
+	GetFile string = "/api/file"
+)
+
+const (
+	AuthHeader  string = "token"
+	ContextUser string = "CONTEXT_USER"
 )
 
 var WHITE_URL []string
 
 func init() {
 	WHITE_URL = make([]string, 1)
-	WHITE_URL = append(WHITE_URL, WX_LOGIN)
-	WHITE_URL = append(WHITE_URL, UPLOAD)
-	WHITE_URL = append(WHITE_URL, GET_FILE)
+	WHITE_URL = append(WHITE_URL, WxLogin)
 }
 
 func AuthMiddleWare() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		needAuth := true
-		for _, ele := range WHITE_URL {
-			if ele == context.Request.URL.Path {
-				needAuth = false
+		if !strings.HasPrefix(context.Request.URL.Path, "asset") {
+			for _, ele := range WHITE_URL {
+				if ele == context.Request.URL.Path {
+					needAuth = false
+					break
+				}
 			}
 		}
 		if needAuth {
-			token := context.GetHeader(AUTH_HEADER)
+			token := context.GetHeader(AuthHeader)
+			if strings.HasPrefix(context.Request.URL.Path, "/assets") {
+				queryToken, b := context.GetQuery("token")
+				if b {
+					token = queryToken
+				}
+			}
 			if token == "" {
 				context.Abort()
 				context.JSON(http.StatusUnauthorized, result.Fail("无权访问"))
@@ -55,7 +63,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 					context.Abort()
 					context.JSON(http.StatusUnauthorized, result.Fail("token 无效"))
 				}
-				context.Set(CONTEXT_USER, jwtToken)
+				context.Set(ContextUser, jwtToken)
 				context.Next()
 			}
 		} else {

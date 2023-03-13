@@ -23,42 +23,42 @@ const formatNumber = (n: number) => {
 
 
 
-export function SendGet(url:string){
-  let req:CallApiReq={
-    url:url,
-    method:"GET",
-    message:"处理中"
+export function SendGet(url: string) {
+  let req: CallApiReq = {
+    url: url,
+    method: "GET",
+    message: "处理中"
   }
   return CallApi(req)
 }
 
-export function SendPost<T>(url:string,data:any){
-  let req:CallApiReq={
-    url:url,
-    method:"POST",
-    data:data,
-    message:"处理中",
-    showLoading:true
+export function SendPost<T>(url: string, data: any) {
+  let req: CallApiReq = {
+    url: url,
+    method: "POST",
+    data: data,
+    message: "处理中",
+    showLoading: true
   }
   return CallApi<T>(req)
 }
 
-export function CallApi<T>(obj:CallApiReq) {
-  return new Promise<T>(function(resolve, reject) {
-    if(obj.showLoading){
-      showLoading(obj.message? obj.message : '加载中...');
+export function CallApi<T>(obj: CallApiReq) {
+  return new Promise<T>(function (resolve, reject) {
+    if (obj.showLoading) {
+      showLoading(obj.message ? obj.message : '加载中...');
     }
     var data = {};
-    if(obj.data) {
+    if (obj.data) {
       data = obj.data;
     }
     var contentType = 'application/json';
-    if(obj.contentType){
+    if (obj.contentType) {
       contentType = obj.contentType;
-    } 
+    }
 
     var method = 'GET';
-    if(obj.method){
+    if (obj.method) {
       method = obj.method;
     }
 
@@ -68,11 +68,11 @@ export function CallApi<T>(obj:CallApiReq) {
       method: method,
       //添加请求头
       header: {
-        'Content-Type': contentType ,
+        'Content-Type': contentType,
         'token': wx.getStorageSync('token') //获取保存的token
       },
       //请求成功
-      success: function(res) {
+      success: function (res) {
         console.log('===============================================================================================')
         console.log('==    接口地址：' + obj.url);
         console.log('==    接口参数：' + JSON.stringify(data));
@@ -81,7 +81,7 @@ export function CallApi<T>(obj:CallApiReq) {
         console.log("==    接口数据：" + JSON.stringify(res.data));
         console.log('===============================================================================================')
         if (res.statusCode == 200) {
-          let resData= res.data as T
+          let resData = res.data as T
           resolve(resData);
         } else if (res.statusCode == 401) {//授权失效
           reject("登录已过期");
@@ -90,7 +90,7 @@ export function CallApi<T>(obj:CallApiReq) {
           reject("请求失败：" + res.statusCode)
         }
       },
-      fail: function(err) {
+      fail: function (err) {
         //服务器连接异常
         console.log('===============================================================================================')
         console.log('==    接口地址：' + url)
@@ -100,9 +100,19 @@ export function CallApi<T>(obj:CallApiReq) {
         console.log('===============================================================================================')
         reject("服务器连接异常，请检查网络再试");
       },
-      complete: function() {
+      complete: function () {
         hideLoading();
       }
     })
   });
+}
+
+export function GenImageUrl(imageNo: string) {
+  return `${HOST_NAME}/assets/${imageNo}?token=${wx.getStorageSync('token')}`
+}
+
+export function IsBlank(st: string) {
+  if (st == undefined || st == null || st == '' || st.length <= 0) {
+    return true
+  }
 }

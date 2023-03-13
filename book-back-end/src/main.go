@@ -10,6 +10,7 @@ func main() {
 	webServer := gin.New()
 	webServer.Use(gin.Recovery())
 	webServer.Use(router.AuthMiddleWare())
+	webServer.Static("assets", "static/image/")
 	register.UserRoute(webServer)
 	register.CategoryRoute(webServer)
 	register.FileRouter(webServer)

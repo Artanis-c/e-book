@@ -43,3 +43,18 @@ func BuildUserService() (*service.UserService, error) {
 	userService := service.NewUserService(userRepository)
 	return userService, nil
 }
+
+func BuildBookService() (*service.BookService, error) {
+	db := repo.NewDbConnection()
+	bookRepository := repo.NewBookRepository(db)
+	bookService := service.NewBookService(bookRepository)
+	return bookService, nil
+}
+
+func BuildBookAction() (*action.BookAction, error) {
+	db := repo.NewDbConnection()
+	bookRepository := repo.NewBookRepository(db)
+	bookService := service.NewBookService(bookRepository)
+	bookAction := action.NewBookAction(bookService)
+	return bookAction, nil
+}

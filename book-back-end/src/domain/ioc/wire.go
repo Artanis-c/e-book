@@ -29,3 +29,12 @@ func BuildUserService() (*service.UserService, error) {
 	wire.Build(service.NewUserService, repo.NewUserRepository, repo.NewDbConnection)
 	return new(service.UserService), nil
 }
+
+func BuildBookService() (*service.BookService, error) {
+	wire.Build(service.NewBookService, repo.NewBookRepository, repo.NewDbConnection)
+	return new(service.BookService), nil
+}
+func BuildBookAction() (*action.BookAction, error) {
+	wire.Build(action.NewBookAction, service.NewBookService, repo.NewBookRepository, repo.NewDbConnection)
+	return new(action.BookAction), nil
+}
