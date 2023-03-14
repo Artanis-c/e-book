@@ -28,6 +28,13 @@ const (
 	ContextUser string = "CONTEXT_USER"
 )
 
+const (
+	AddBook       string = "/api/book/add"
+	UpdateBook           = "/api/book/update"
+	QueryBookList        = "api/book/list"
+	QueryBook            = "/api/book/detail"
+)
+
 var WHITE_URL []string
 
 func init() {

@@ -13,5 +13,6 @@ type SaveBookReq struct {
 type BookListReq struct {
 	BookName string `json:"bookName"`
 	BarCode  string `json:"barCode"`
-	PageReq
+	UserNo   string
+	Page     PageReq
 }

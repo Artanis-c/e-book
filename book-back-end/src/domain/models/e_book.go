@@ -5,12 +5,13 @@ import "time"
 // BookInfo 图书列表
 type BookInfo struct {
 	BookNo     string     `gorm:"primaryKey;column:book_no;type:char(16);not null" json:"bookNo"`
-	BookName   string     `gorm:"column:book_name;type:varchar(100);not null" json:"bookName"`                  // 书名
-	BarCode    string     `gorm:"unique;column:bar_code;type:varchar(20);not null" json:"barCode"`              // 条形码
-	CategoryNo string     `gorm:"index:i_category;column:category_no;type:char(16);not null" json:"categoryNo"` // 类型编码
-	Price      *float64   `gorm:"column:price;type:decimal(11,4)" json:"price"`                                 // 价格
-	Image      string     `gorm:"column:image;type:varchar(200)" json:"image"`                                  // 图片
-	Remark     string     `gorm:"column:remark;type:varchar(200)" json:"remark"`                                // 备注
+	BookName   string     `gorm:"column:book_name;type:varchar(100);not null" json:"bookName"` // 书名
+	BarCode    string     `gorm:"column:bar_code;type:varchar(20);not null" json:"barCode"`    // 条形码
+	CategoryNo string     `gorm:"column:category_no;type:char(16);not null" json:"categoryNo"` // 类型编码
+	UserNo     string     `gorm:"index:i_user;column:user_no;type:char(16)" json:"userNo"`     // 用户编码
+	Price      *float64   `gorm:"column:price;type:decimal(11,4)" json:"price"`                // 价格
+	Image      string     `gorm:"column:image;type:varchar(200)" json:"image"`                 // 图片
+	Remark     string     `gorm:"column:remark;type:varchar(200)" json:"remark"`               // 备注
 	CreateTime *time.Time `gorm:"column:create_time;type:datetime;default:CURRENT_TIMESTAMP" json:"createTime"`
 }
 
@@ -25,6 +26,7 @@ var BookInfoColumns = struct {
 	BookName   string
 	BarCode    string
 	CategoryNo string
+	UserNo     string
 	Price      string
 	Image      string
 	Remark     string
@@ -34,6 +36,7 @@ var BookInfoColumns = struct {
 	BookName:   "book_name",
 	BarCode:    "bar_code",
 	CategoryNo: "category_no",
+	UserNo:     "user_no",
 	Price:      "price",
 	Image:      "image",
 	Remark:     "remark",
@@ -44,7 +47,7 @@ var BookInfoColumns = struct {
 type Category struct {
 	CategoryNo   string     `gorm:"primaryKey;column:category_no;type:varchar(30);not null" json:"categoryNo"` // 类别编号
 	CategoryName string     `gorm:"column:category_name;type:varchar(50);not null" json:"categoryName"`        // 类别名称
-	UserNo       string     `gorm:"column:user_no;type:char(16)" json:"userNo"`                                // 所属人编号
+	UserNo       string     `gorm:"index:i_user;column:user_no;type:char(16)" json:"userNo"`                   // 所属人编号
 	CreateTime   *time.Time `gorm:"column:create_time;type:datetime;not null;default:CURRENT_TIMESTAMP" json:"createTime"`
 }
 
@@ -96,7 +99,7 @@ var TempColumns = struct {
 type UserInfo struct {
 	UserNo     string     `gorm:"primaryKey;column:user_no;type:char(16);not null" json:"userNo"`
 	UserName   string     `gorm:"column:user_name;type:varchar(20)" json:"userName"`
-	OpenID     string     `gorm:"column:open_id;type:varchar(100);not null" json:"openId"` // 微信openid
+	OpenID     string     `gorm:"unique;column:open_id;type:varchar(100);not null" json:"openId"` // 微信openid
 	CreateTime *time.Time `gorm:"column:create_time;type:datetime;default:CURRENT_TIMESTAMP" json:"createTime"`
 }
 

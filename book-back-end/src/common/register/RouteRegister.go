@@ -56,3 +56,28 @@ func FileRouter(webServer *gin.Engine) {
 		context.JSON(http.StatusOK, file)
 	})
 }
+
+func BookRouter(webServer *gin.Engine) {
+	webServer.POST(router.AddBook, func(context *gin.Context) {
+		bookAction, _ := ioc.BuildBookAction()
+		req := req.SaveBookReq{}
+		context.BindJSON(&req)
+		userInfo, _ := context.Get(router.ContextUser)
+		context.JSON(http.StatusOK, bookAction.SaveBook(&req, userInfo.(*result.JwtClaims)))
+	})
+
+	webServer.POST(router.UpdateBook, func(context *gin.Context) {
+		bookAction, _ := ioc.BuildBookAction()
+		req := req.SaveBookReq{}
+		context.BindJSON(&req)
+		context.JSON(http.StatusOK, bookAction.UpdateBook(&req))
+	})
+
+	webServer.POST(router.QueryBookList, func(context *gin.Context) {
+		bookAction, _ := ioc.BuildBookAction()
+		req := req.BookListReq{}
+		context.BindJSON(&req)
+		userInfo, _ := context.Get(router.ContextUser)
+		context.JSON(http.StatusOK, bookAction.QueryBookList(&req, userInfo.(*result.JwtClaims)))
+	})
+}

@@ -14,6 +14,7 @@ func main() {
 	register.UserRoute(webServer)
 	register.CategoryRoute(webServer)
 	register.FileRouter(webServer)
+	register.BookRouter(webServer)
 	err := webServer.Run(":9001")
 	if err != nil {
 		panic(err)
