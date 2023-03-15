@@ -5,6 +5,6 @@ type PageReq struct {
 	PageSize  int `json:"pageSize"`
 }
 
-func (p *PageReq) GetOffSet() int {
+func (p PageReq) GetOffSet() int {
 	return (p.PageIndex - 1) * p.PageSize
 }

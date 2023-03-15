@@ -4,6 +4,7 @@ import (
 	"book-back-end/src/domain/models"
 	"book-back-end/src/domain/models/req"
 	"book-back-end/src/domain/models/res"
+	"fmt"
 	"gorm.io/gorm"
 	"strings"
 )
@@ -45,7 +46,7 @@ func (repo *BookRepository) QueryBookList(reqData *req.BookListReq) *res.PageRes
 	sql := strings.Builder{}
 	coutSql := strings.Builder{}
 	params := make([]interface{}, 0)
-	var resData []res.BookListRes
+	resData := make([]res.BookListRes, 0)
 	var count int64
 	sql.WriteString("select  b.*,c.category_name from book_info as b inner join category c on b.category_no = c.category_no where 1=1")
 	if reqData.BookName != "" {
@@ -58,13 +59,14 @@ func (repo *BookRepository) QueryBookList(reqData *req.BookListReq) *res.PageRes
 	}
 	coutSql.WriteString("select count(0) from (")
 	coutSql.WriteString(sql.String())
-	coutSql.WriteString(")")
-	repo.db.Raw(sql.String(), params).Scan(&resData)
+	coutSql.WriteString(") as t1")
+	sql.WriteString(fmt.Sprintf("  limit %d,%d", reqData.GetOffSet(), reqData.PageSize))
+	repo.db.Raw(sql.String(), params...).Scan(&resData)
 	repo.db.Raw(coutSql.String()).Scan(&count)
 	return &res.PageRes{
-		PageIndex: reqData.Page.PageIndex,
-		PageSize:  reqData.Page.PageSize,
+		PageIndex: reqData.PageIndex,
+		PageSize:  reqData.PageSize,
 		Total:     count,
-		Data:      resData,
+		Records:   resData,
 	}
 }

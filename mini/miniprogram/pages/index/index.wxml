@@ -1,5 +1,22 @@
-
-
-<van-sticky offset-top="{{ 500 }}">
-  <van-button type="warning" round bind:click="onAdd">添加</van-button>
-</van-sticky>
+<van-row>
+  <van-search value="{{ value }}" placeholder="请输入搜索关键词" use-action-slot bind:change="onChange" bind:search="onSearch" use-right-icon-slot>
+    <view slot="right-icon" bind:tap="onClick">
+      <van-icon size="25px" name="scan" />
+    </view>
+  </van-search>
+</van-row>
+<van-row>
+  <van-col span="8">
+    <van-sidebar active-key="{{ activeKey }}">
+      <van-sidebar-item wx:for="{{categoryList}}" title="{{item.categoryName}}" />
+    </van-sidebar>
+    <van-sticky offset-top="{{ 500 }}">
+      <van-button type="warning" round bind:click="onAdd">添加</van-button>
+    </van-sticky>
+  </van-col>
+  <van-col span="16">
+    <scroll-view bind:scroll="onScroll" scroll-y id="scroller" style="height: 1180rpx;">
+      <van-card wx:for="{{bookList}}" price="{{item.price}}" desc="{{item.barCode}}" title="{{item.bookName}}" thumb="{{ item.image }}" />
+    </scroll-view>
+  </van-col>
+</van-row>

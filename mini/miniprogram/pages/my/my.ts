@@ -1,7 +1,6 @@
 // pages/my/my.ts
 
 import { GridItemModel } from "miniprogram/mdoel/model"
-
 var gridItem:Array<GridItemModel> =[
   {
     name:'图书分类',
