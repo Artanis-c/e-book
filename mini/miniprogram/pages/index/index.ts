@@ -6,7 +6,7 @@ import { GenImageUrl, SendGet, SendPost } from "../../utils/util"
 // 获取应用实例
 const app = getApp<IAppOption>();
 var BookList: Array<BookListMode> = [];
-var BookCategoryList:Array<BookCategory>=[];
+var BookCategoryList: Array<BookCategory> = [];
 Page({
   data: {
     bookList: BookList,
@@ -15,7 +15,7 @@ Page({
     total: 0,
     barCode: '',
     bookName: '',
-    categoryList:BookCategoryList
+    categoryList: BookCategoryList
   },
   // 事件处理函数
   bindViewTap() {
@@ -50,17 +50,25 @@ Page({
       let resData = res.data.records
       let oldData = this.data.bookList
       resData.forEach(x => {
-       x.image= GenImageUrl(x.image)
+        x.image = GenImageUrl(x.image)
         oldData.push(x)
       })
       this.setData({ bookList: oldData, pageIndex: res.data.pageIndex, pageSize: res.data.pageSize, total: res.data.total })
-
     })
   },
-  queryCategory(){
+  queryCategory() {
     let callBack = SendPost<ApiResponse<Array<BookCategory>>>("/api/category/list", {})
     callBack.then(res => {
       this.setData({ categoryList: res.data })
     })
+  },
+  onLower(e: any) {
+    let oldPageIndex = this.data.pageIndex
+    let newPageIndex = oldPageIndex + 1;
+    this.setData({ pageIndex: newPageIndex })
+    this.lunchData()
+  },onCategoryChange(event:any){
+console.log(event);
+
   }
 })

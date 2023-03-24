@@ -7,15 +7,15 @@
 </van-row>
 <van-row>
   <van-col span="8">
-    <van-sidebar active-key="{{ activeKey }}">
-      <van-sidebar-item wx:for="{{categoryList}}" title="{{item.categoryName}}" />
+    <van-sidebar active-key="{{ activeKey }}" bind:change="onCategoryChange">
+      <van-sidebar-item wx:for="{{categoryList}}" title="{{item.categoryName}}" data-categoryNo="{{item.categoryNo}}" />
     </van-sidebar>
     <van-sticky offset-top="{{ 500 }}">
       <van-button type="warning" round bind:click="onAdd">添加</van-button>
     </van-sticky>
   </van-col>
   <van-col span="16">
-    <scroll-view bind:scroll="onScroll" scroll-y id="scroller" style="height: 1180rpx;">
+    <scroll-view bindscrolltolower="onLower" scroll-y id="scroller" style="height: 1180rpx;">
       <van-card wx:for="{{bookList}}" price="{{item.price}}" desc="{{item.barCode}}" title="{{item.bookName}}" thumb="{{ item.image }}" />
     </scroll-view>
   </van-col>
