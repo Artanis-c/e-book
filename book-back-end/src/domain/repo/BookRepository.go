@@ -50,12 +50,17 @@ func (repo *BookRepository) QueryBookList(reqData *req.BookListReq) *res.PageRes
 	var count int64
 	sql.WriteString("select  b.*,c.category_name from book_info as b inner join category c on b.category_no = c.category_no where 1=1")
 	if reqData.BookName != "" {
-		sql.WriteString(" and b.book_name =?")
-		params = append(params, reqData.BookName)
+		sql.WriteString(" and (b.book_name like ? or b.bar_code like ?)")
+		var sqlParam = "%" + reqData.BookName + "%"
+		params = append(params, sqlParam, sqlParam)
 	}
 	if reqData.BarCode != "" {
 		params = append(params, reqData.BarCode)
 		sql.WriteString(" and b.bar_code =?")
+	}
+	if reqData.CategoryNo != "" {
+		params = append(params, reqData.CategoryNo)
+		sql.WriteString(" and b.category_no =?")
 	}
 	coutSql.WriteString("select count(0) from (")
 	coutSql.WriteString(sql.String())
