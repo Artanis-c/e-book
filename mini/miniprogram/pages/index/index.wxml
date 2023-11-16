@@ -1,7 +1,7 @@
 <van-row>
-  <van-search value="{{ value }}" placeholder="请输入搜索关键词" use-action-slot bind:change="onChange" bind:search="onSearch" use-right-icon-slot>
+  <van-search value="{{ bookName }}" placeholder="请输入搜索关键词" use-action-slot bind:change="onSearch"  bind:search="onSearch" use-right-icon-slot>
     <view slot="right-icon" bind:tap="onClick">
-      <van-icon size="25px" name="scan" />
+      <van-icon size="25px" name="scan" bind:click="onScan" />
     </view>
   </van-search>
 </van-row>
